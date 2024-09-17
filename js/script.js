@@ -174,14 +174,15 @@ $(function () {
 						// Hide the modal and display the main content and footer
 						document.getElementById('projectIdModal').style.display = 'none';
 						document.getElementById('mainContent').style.display = 'block';
-						document.getElementById('footerContent').style.display = 'block'; // Updated to display flex
+						 // Updated to display flex
 	
 						// Fetch and update the content after project ID is confirmed
-						updateLogo();           // Fetch and update the logo
+						updateLogo();
+						updateAddressDetails();         // Fetch and update the logo
 						updateCarouselSlides(); // Fetch and update carousel slides
 						updateCategoryBanners(); // Fetch and update category banners
 						updateAboutSection();   // Fetch and update the About section
-						updateAddressDetails();
+						
 						updateTravelDetails();
 						updateBannerImages();
 						fetchAndDisplayGalleryProducts();
@@ -224,6 +225,43 @@ $(function () {
 			console.error('Error fetching the logo:', error);
 		  });
 	  }
+
+	  function updateAddressDetails() {
+		fetch(`http://localhost:3001/properties/${PROJECTID}/address`)
+			.then(response => response.json())
+			.then(data => {
+				if (data) {
+					// Log the address details for debugging
+					console.log('Address details:', data);
+	
+					// Update phone number
+					var phoneElements = document.querySelectorAll('.link-phone');
+					phoneElements.forEach(element => {
+						element.textContent = data.contactNo;
+						element.href = `tel:${data.contactNo}`;
+					});
+	
+					// Update email
+					var emailElements = document.querySelectorAll('.link-aemail');
+					emailElements.forEach(element => {
+						element.textContent = data.emailId;
+						element.href = `mailto:${data.emailId}`;
+					});
+	
+					// Update location
+					var locationElements = document.querySelectorAll('.link-location');
+					locationElements.forEach(element => {
+						element.textContent = `${data.street}, ${data.city}, ${data.state}, ${data.pincode}`;
+					});
+				} else {
+					console.error('No address details found in the response');
+				}
+			})
+			.catch(error => {
+				console.error('Error fetching the address details:', error);
+			});
+	}
+	
 
 	/**
 	 * @desc Initialize Google maps
