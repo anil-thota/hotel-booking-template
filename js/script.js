@@ -3,6 +3,69 @@
  */
 "use strict";
 
+	// Global variables
+	var PROJECTID = "";
+
+	// Document ready (DOMContentLoaded) function
+	document.addEventListener("DOMContentLoaded", function () {
+		// When the submit button is clicked
+		document.getElementById('submitProjectId').addEventListener('click', function (event) {
+			event.preventDefault(); // Prevent default behavior (in case this is part of a form)
+	
+			const projectId = document.getElementById('projectIdInput').value;
+			if (!projectId) {
+				alert("Please enter a Project ID");
+				return;
+			}
+	
+			let checkProjectId = false;
+	
+			console.log("Button clicked, starting fetch..."); // Debugging line to check button click
+	
+			// Fetch the project data from the API
+			fetch('http://localhost:3001/project')
+				.then(response => {
+					console.log("API response received"); // Debugging line to confirm API call
+					return response.json();
+				})
+				.then(data => {
+					const projects = data.projects; // Access the 'projects' array from the API response
+					console.log("Projects data fetched:", projects); // Debugging line to show fetched projects
+	
+					// Iterate over each project and check if the entered ID matches any project's _id
+					projects.forEach(project => {
+						if (project._id === projectId) {
+							checkProjectId = true;
+							PROJECTID = projectId;
+						}
+					});
+	
+					// Check if the project ID is valid
+					if (checkProjectId) {
+						// Hide the modal and display the main content and footer
+						document.getElementById('projectIdModal').style.display = 'none';
+						document.getElementById('mainContent').style.display = 'block';
+						document.getElementById('footerContent').style.display = 'block'; // Updated to display flex
+	
+						// Fetch and update the content after project ID is confirmed
+						updateLogo();           // Fetch and update the logo
+						updateCarouselSlides(); // Fetch and update carousel slides
+						updateCategoryBanners(); // Fetch and update category banners
+						updateAboutSection();   // Fetch and update the About section
+						updateAddressDetails();
+						updateTravelDetails();
+						updateBannerImages();
+						fetchAndDisplayGalleryProducts();
+						fetchAndDisplayTeamMembers();
+					} else {
+						alert("Please enter a valid Project ID");
+					}
+				})
+				
+		});
+	});
+
+
 var userAgent = navigator.userAgent.toLowerCase(),
 		initialDate = new Date(),
 
@@ -75,6 +138,7 @@ function lazyInit(element, func) {
 	scrollHandler();
 	$window.on('scroll', scrollHandler);
 }
+
 
 // Initialize scripts that require a loaded window
 $window.on('load', function () {

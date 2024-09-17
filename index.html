@@ -16,9 +16,23 @@
     <style>.ie-panel{display: none;background: #212121;padding: 10px 0;box-shadow: 3px 3px 5px 0 rgba(0,0,0,.3);clear: both;text-align:center;position: relative;z-index: 1;} html.ie-10 .ie-panel, html.lt-ie-10 .ie-panel {display: block;}</style>
   </head>
   <body>
-    <div class="ie-panel"><a href="http://windows.microsoft.com/en-US/internet-explorer/"><img src="images/ie8-panel/warning_bar_0000_us.jpg" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today."></a></div>
+    <div class="modal" id="projectIdModal" tabindex="-1" role="dialog" aria-hidden="true" style="display:block;">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Enter Project ID</h5>
+          </div>
+          <div class="modal-body">
+            <input type="text" id="projectIdInput" class="form-control" placeholder="Enter Project ID" required>
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="submitProjectId" class="btn btn-primary">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- Page-->
-    <div class="text-center page"><a class="banner banner-top" href="https://www.templatemonster.com/website-templates/monstroid2.html" target="_blank"><img src="images/monstroid.jpg" alt="" height="0"></a>
+<div id="mainContent" style="display: none;">
       <!-- Page preloader-->
       <div class="page-loader">
         <div>
@@ -73,7 +87,7 @@
                 </div>
                 <div class="center-side">
                   <!-- RD Navbar Brand-->
-                  <div class="rd-navbar-brand fullwidth-brand"><a class="brand-name" href="index.html"><img src="images/logo-default-314x48.png" alt="" width="314" height="48"/></a></div>
+                  <div class="rd-navbar-brand fullwidth-brand"><a class="brand-name" href="index.html"><img id="dynamicLogo" src="images/logo-default-314x48.png" alt="" width="314" height="48"/></a></div>
                 </div>
                 <div class="right-side">
                   <!-- Contact Info-->
@@ -449,7 +463,7 @@
     <!-- Global Mailform Output-->
     <div class="snackbars" id="form-output-global"></div>
     <!-- PhotoSwipe Gallery-->
-    <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <div id="footerContent" style="display: none;" class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="pswp__bg"></div>
       <div class="pswp__scroll-wrap">
         <div class="pswp__container">
