@@ -65,6 +65,35 @@
 		});
 	});
 
+	function updateLogo() {
+		// Get the logo element by its ID
+		const logoElement = document.getElementById('dynamicLogo');
+		
+		if (!logoElement) {
+		  console.error("Logo element not found");
+		  return;
+		}
+	  
+		// Fetch the logo data from the API using the project ID
+		fetch(`http://localhost:3001/properties/${PROJECTID}/logo`)
+		  .then(response => response.json())
+		  .then(data => {
+			console.log("API Response:", data);
+			
+			// Check if the response contains a logo URL
+			if (data.logo) {
+			  // Update the logo element's src attribute with the new logo URL
+			  logoElement.src = data.logo;
+			} else {
+			  console.error('Logo URL not found in the response');
+			}
+		  })
+		  .catch(error => {
+			console.error('Error fetching the logo:', error);
+		  });
+	  }
+	  
+
 
 var userAgent = navigator.userAgent.toLowerCase(),
 		initialDate = new Date(),
