@@ -66,11 +66,12 @@
 	});
 
 	function updateLogo() {
-		// Get the logo element by its ID
-		const logoElement = document.getElementById('dynamicLogo');
+		// Select all elements with the class 'dynamicLogo'
+		const logoElements = document.getElementsByClassName('dynamicLogo');
 		
-		if (!logoElement) {
-		  console.error("Logo element not found");
+		// Check if elements exist
+		if (logoElements.length === 0) {
+		  console.error("No logo elements found");
 		  return;
 		}
 	  
@@ -79,11 +80,13 @@
 		  .then(response => response.json())
 		  .then(data => {
 			console.log("API Response:", data);
-			
+	  
 			// Check if the response contains a logo URL
 			if (data.logo) {
-			  // Update the logo element's src attribute with the new logo URL
-			  logoElement.src = data.logo;
+			  // Loop through all logo elements and update their src attribute
+			  Array.from(logoElements).forEach(logoElement => {
+				logoElement.src = data.logo;
+			  });
 			} else {
 			  console.error('Logo URL not found in the response');
 			}
@@ -92,6 +95,7 @@
 			console.error('Error fetching the logo:', error);
 		  });
 	  }
+	  
 	  
 
 
