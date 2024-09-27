@@ -16,9 +16,27 @@
     <style>.ie-panel{display: none;background: #212121;padding: 10px 0;box-shadow: 3px 3px 5px 0 rgba(0,0,0,.3);clear: both;text-align:center;position: relative;z-index: 1;} html.ie-10 .ie-panel, html.lt-ie-10 .ie-panel {display: block;}</style>
   </head>
   <body>
-    <div class="ie-panel"><a href="http://windows.microsoft.com/en-US/internet-explorer/"><img src="images/ie8-panel/warning_bar_0000_us.jpg" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today."></a></div>
+    <div class="modal" id="projectIdModal" tabindex="-1" role="dialog" aria-hidden="true" style="display:block;">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Enter Project ID</h5>
+          </div>
+          <div class="modal-body">
+            <input type="text" id="projectIdInput" class="form-control" placeholder="Enter Project ID" required>
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="submitProjectId" class="btn btn-primary">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="mainContent" style="display: none;">
+    
+      <!-- Page Header--><div class="ie-panel"><a href="http://windows.microsoft.com/en-US/internet-explorer/"><img src="images/ie8-panel/warning_bar_0000_us.jpg" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today."></a></div>
     <!-- Page-->
-    <div class="text-center page"><a class="banner banner-top" href="https://www.templatemonster.com/website-templates/monstroid2.html" target="_blank"><img src="images/monstroid.jpg" alt="" height="0"></a>
+    <div class="text-center page">
       <!-- Page preloader-->
       <div class="page-loader">
         <div>
@@ -55,7 +73,6 @@
           </div>
         </div>
       </div>
-      <!-- Page Header-->
       <header class="page-header" style="padding-bottom: 24px">
         <!-- RD Navbar-->
         <div class="rd-navbar-wrap">
@@ -80,7 +97,7 @@
                   <div class="contact-info">
                     <div class="unit unit-middle unit-horizontal unit-spacing-xs">
                       <div class="unit__left"><span class="icon icon-primary text-middle mdi mdi-phone"></span></div>
-                      <div class="unit__body"><a class="text-middle" href="tel:#">+1 (409) 987–5874</a></div>
+                      <div class="unit__body"><a class="text-middle link-phone" href="tel:#">+1 (409) 987–5874</a></div>
                     </div>
                   </div>
                 </div>
@@ -365,13 +382,13 @@
                       <li>
                         <dl class="list-desc">
                           <dt><span class="icon icon-sm mdi mdi-map-marker"></span></dt>
-                          <dd><a class="link link-gray-darker" href="#">6036 Richmond hwy., Alexandria, VA, 2230</a></dd>
+                          <dd><a class="link link-gray-darker link-location" href="#">6036 Richmond hwy., Alexandria, VA, 2230</a></dd>
                         </dl>
                       </li>
                       <li>
                         <dl class="list-desc">
                           <dt><span class="icon icon-sm mdi mdi-phone"></span></dt>
-                          <dd class="text-gray-darker">Call Us: <a class="link link-gray-darker" href="tel:#">+1 (409) 987–5874</a>
+                          <dd class="text-gray-darker">Call Us: <a class="link link-gray-darker link-phone" href="tel:#">+1 (409) 987–5874</a>
                           </dd>
                         </dl>
                       </li>
@@ -435,6 +452,7 @@
           </div>
         </div>
       </div>
+    </div>
     </div>
     <!-- Javascript-->
     <script src="js/core.min.js"></script>
