@@ -348,72 +348,70 @@ function updateCarouselSlides() {
 
 
 function fetchAndDisplayGalleryProducts() {
-    const apiUrl = `http://localhost:3001/properties/${PROJECTID}/product`;
+    const apiUrl = `http://localhost:3001/properties/${PROJECTID}/banner`;
 
     // Fetch the product data from the API
-    fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
-            // Filter the products to include only those with the category name "GALLERY"
-            const galleryProducts = data.allProducts.filter(item => item.category.name === 'GALLERY');
+	fetch(apiUrl)
+	.then(response => response.json())
+	.then(data => {
+		// Get the container where gallery items will be appended
+		const container = document.querySelector('.gallery-container');
 
-            console.log("Gallery", galleryProducts);
+		// Clear existing gallery items if needed
+		container.innerHTML = '';
 
-            // Get the container where thumbnails will be appended or updated
-            const container = document.querySelector('.gallery-container');
+		// Loop through the categoryBanners and create gallery items
+		data.categoryBanners.forEach(banner => {
+			// Create a new div for each gallery item
+			const item = document.createElement('div');
+			item.classList.add('col-xs-12', 'col-sm-6', 'col-md-3', 'isotope-item', 'wow', 'fadeInUp');
+			item.dataset.filter = 'Gallery';
 
-            // Clear existing thumbnails (if needed)
-            container.innerHTML = '';
+			// Create a link element wrapping the thumbnail image
+			const linkElement = document.createElement('a');
+			linkElement.classList.add('portfolio-item', 'thumbnail-classic');
+			linkElement.href = banner.image;
+			linkElement.dataset.size = '1200x800'; // Adjust size if needed
+			linkElement.dataset.lightgallery = 'item';
 
-            // Loop through the gallery products and create/update thumbnails
-            galleryProducts.forEach(product => {
-                // Create a new thumbnail element
-                const item = document.createElement('div');
-                item.classList.add('col-xs-12', 'col-sm-6', 'col-md-3', 'isotope-item', 'wow', 'fadeInUp');
-                item.dataset.filter = 'Category 1';
+			// Create and append the image element
+			const imageElement = document.createElement('img');
+			imageElement.src = banner.image;
+			imageElement.alt = banner.heading;
+			imageElement.style.width = '150px';  // Adjust width
+			imageElement.style.height = '150px'; // Adjust height
 
-                // Create a link element wrapping the thumbnail image
-                const linkElement = document.createElement('a');
-                linkElement.classList.add('portfolio-item', 'thumbnail-classic');
-                linkElement.href = product.images[0];
-                linkElement.dataset.size = '1200x800'; // Adjust size if needed
-                linkElement.dataset.lightgallery = 'item';
+			// Create and append the caption element
+			const captionElement = document.createElement('div');
+			captionElement.classList.add('caption');
 
-                // Create and append the image element
-                const imageElement = document.createElement('img');
-                imageElement.src = product.images[0];
-                imageElement.alt = product.title;
-                imageElement.width = 420; // Adjust width and height as needed
-                imageElement.height = 278;
+			// Add placeholder icons for likes/views (you can replace with real data if available)
+			const thumbsUp = document.createElement('span');
+			thumbsUp.classList.add('icon', 'mdi-thumb-up-outline');
+			thumbsUp.textContent = '346'; // Replace with actual like count if available
 
-                // Create and append the caption element
-                const captionElement = document.createElement('div');
-                captionElement.classList.add('caption');
-                const thumbsUp = document.createElement('span');
-                thumbsUp.classList.add('icon', 'mdi-thumb-up-outline');
-                thumbsUp.textContent = '346'; // Replace with actual data if available
-                const eyeIcon = document.createElement('span');
-                eyeIcon.classList.add('icon', 'mdi-eye');
-                eyeIcon.textContent = '220'; // Replace with actual data if available
+			const eyeIcon = document.createElement('span');
+			eyeIcon.classList.add('icon', 'mdi-eye');
+			eyeIcon.textContent = '220'; // Replace with actual view count if available
 
-                captionElement.appendChild(thumbsUp);
-                captionElement.appendChild(eyeIcon);
+			captionElement.appendChild(thumbsUp);
+			captionElement.appendChild(eyeIcon);
 
-                // Assemble the thumbnail item
-                linkElement.appendChild(imageElement);
-                linkElement.appendChild(captionElement);
-                item.appendChild(linkElement);
+			// Assemble the thumbnail item
+			linkElement.appendChild(imageElement);
+			linkElement.appendChild(captionElement);
+			item.appendChild(linkElement);
 
-                // Append the new thumbnail to the container
-                container.appendChild(item);
-            });
+			// Append the new thumbnail to the container
+			container.appendChild(item);
+		});
 
-            // Initialize LightGallery or any other required plugins
-            // For example: lightGallery(container, {selector: '.portfolio-item'});
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-        });
+		// Initialize LightGallery or any other required plugins
+		// For example: lightGallery(container, {selector: '.portfolio-item'});
+	})
+	.catch(error => {
+		console.error('Error fetching data:', error);
+	});
 }
 
 
