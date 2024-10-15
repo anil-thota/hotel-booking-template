@@ -165,7 +165,7 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        fetch('http://localhost:3001/project')
+        fetch('https://purple-backend-362176970036.asia-south1.run.app/project')
             .then(response => response.json())
             .then(data => {
                 const projects = data.projects;
@@ -196,6 +196,10 @@ function applyUpdates() {
 	updateAboutSection();
 	updateCarouselSlides();
 	fetchAndDisplayGalleryProducts();
+	updateAboutUsBanner();
+	updateContactsBanner();
+	updateTypographyBAnner();
+	updateProductDetails();
    
 }
 
@@ -211,7 +215,7 @@ function updateLogo() {
 	}
   
 	// Fetch the logo data from the API using the project ID
-	fetch(`http://localhost:3001/properties/${PROJECTID}/logo`)
+	fetch(`https://purple-backend-362176970036.asia-south1.run.app/properties/${PROJECTID}/logo`)
 	  .then(response => response.json())
 	  .then(data => {
 		console.log("API Response:", data);
@@ -232,7 +236,7 @@ function updateLogo() {
 }
 
 function updateAddressDetails() {
-	fetch(`http://localhost:3001/properties/${PROJECTID}/address`)
+	fetch(`https://purple-backend-362176970036.asia-south1.run.app/properties/${PROJECTID}/address`)
 		.then(response => response.json())
 		.then(data => {
 			if (data) {
@@ -269,7 +273,7 @@ function updateAddressDetails() {
 
 function updateAboutSection() {
 	// Fetching API data for the About Us section
-	fetch(`http://localhost:3001/properties/${PROJECTID}/about`)
+	fetch(`https://purple-backend-362176970036.asia-south1.run.app/properties/${PROJECTID}/about`)
 		.then(response => response.json())
 		
 		.then(data => {
@@ -303,7 +307,7 @@ let swiperInstance = null;
 
 
 function updateCarouselSlides() {
-  fetch(`http://localhost:3001/properties/${PROJECTID}/banner`)
+  fetch(`https://purple-backend-362176970036.asia-south1.run.app/properties/${PROJECTID}/banner`)
     .then(response => response.json())
     .then(data => {
       if (data.banners && data.banners.length > 0) {
@@ -348,71 +352,283 @@ function updateCarouselSlides() {
 
 
 function fetchAndDisplayGalleryProducts() {
-    const apiUrl = `http://localhost:3001/properties/${PROJECTID}/banner`;
+    const apiUrl = `https://purple-backend-362176970036.asia-south1.run.app/properties/${PROJECTID}/banner`;
 
     // Fetch the product data from the API
-	fetch(apiUrl)
-	.then(response => response.json())
-	.then(data => {
-		// Get the container where gallery items will be appended
-		const container = document.querySelector('.gallery-container');
+    fetch(apiUrl)
+    .then(response => response.json())
+    .then(data => {
+        // Get the container where gallery items will be appended
+        const container = document.querySelector('.gallery-container');
 
-		// Clear existing gallery items if needed
-		container.innerHTML = '';
+        // Clear existing gallery items if needed
+        container.innerHTML = '';
 
-		// Loop through the categoryBanners and create gallery items
-		data.categoryBanners.forEach(banner => {
-			// Create a new div for each gallery item
-			const item = document.createElement('div');
-			item.classList.add('col-xs-12', 'col-sm-6', 'col-md-3', 'isotope-item', 'wow', 'fadeInUp');
-			item.dataset.filter = 'Gallery';
+        // Filter banners where heading is "Gallery"
+        const galleryBanners = data.categoryBanners.filter(banner => banner.heading.toLowerCase() === "gallery");
 
-			// Create a link element wrapping the thumbnail image
-			const linkElement = document.createElement('a');
-			linkElement.classList.add('portfolio-item', 'thumbnail-classic');
-			linkElement.href = banner.image;
-			linkElement.dataset.size = '1200x800'; // Adjust size if needed
-			linkElement.dataset.lightgallery = 'item';
+        // Loop through the filtered gallery banners and create gallery items
+        galleryBanners.forEach(banner => {
+            // Create a new div for each gallery item
+            const item = document.createElement('div');
+            item.classList.add('col-xs-12', 'col-sm-6', 'col-md-3', 'isotope-item', 'wow', 'fadeInUp');
+            item.dataset.filter = 'Gallery';
 
-			// Create and append the image element
-			const imageElement = document.createElement('img');
-			imageElement.src = banner.image;
-			imageElement.alt = banner.heading;
-			imageElement.style.width = '150px';  // Adjust width
-			imageElement.style.height = '150px'; // Adjust height
+            // Create a link element wrapping the thumbnail image
+            const linkElement = document.createElement('a');
+            linkElement.classList.add('portfolio-item', 'thumbnail-classic');
+            linkElement.href = banner.image;
+            linkElement.dataset.size = '1200x800'; // Adjust size if needed
+            linkElement.dataset.lightgallery = 'item';
 
-			// Create and append the caption element
-			const captionElement = document.createElement('div');
-			captionElement.classList.add('caption');
+            // Create and append the image element
+            const imageElement = document.createElement('img');
+            imageElement.src = banner.image;
+            imageElement.alt = banner.heading;
+            imageElement.style.width = '150px';  // Adjust width
+            imageElement.style.height = '150px'; // Adjust height
 
-			// Add placeholder icons for likes/views (you can replace with real data if available)
-			const thumbsUp = document.createElement('span');
-			thumbsUp.classList.add('icon', 'mdi-thumb-up-outline');
-			thumbsUp.textContent = '346'; // Replace with actual like count if available
+            // Create and append the caption element
+            const captionElement = document.createElement('div');
+            captionElement.classList.add('caption');
 
-			const eyeIcon = document.createElement('span');
-			eyeIcon.classList.add('icon', 'mdi-eye');
-			eyeIcon.textContent = '220'; // Replace with actual view count if available
+            // Add placeholder icons for likes/views (you can replace with real data if available)
+            const thumbsUp = document.createElement('span');
+            thumbsUp.classList.add('icon', 'mdi-thumb-up-outline');
+            thumbsUp.textContent = '346'; // Replace with actual like count if available
 
-			captionElement.appendChild(thumbsUp);
-			captionElement.appendChild(eyeIcon);
+            const eyeIcon = document.createElement('span');
+            eyeIcon.classList.add('icon', 'mdi-eye');
+            eyeIcon.textContent = '220'; // Replace with actual view count if available
 
-			// Assemble the thumbnail item
-			linkElement.appendChild(imageElement);
-			linkElement.appendChild(captionElement);
-			item.appendChild(linkElement);
+            captionElement.appendChild(thumbsUp);
+            captionElement.appendChild(eyeIcon);
 
-			// Append the new thumbnail to the container
-			container.appendChild(item);
-		});
+            // Assemble the thumbnail item
+            linkElement.appendChild(imageElement);
+            linkElement.appendChild(captionElement);
+            item.appendChild(linkElement);
 
-		// Initialize LightGallery or any other required plugins
-		// For example: lightGallery(container, {selector: '.portfolio-item'});
-	})
-	.catch(error => {
-		console.error('Error fetching data:', error);
-	});
+            // Append the new thumbnail to the container
+            container.appendChild(item);
+        });
+
+        // Initialize LightGallery or any other required plugins
+        // For example: lightGallery(container, {selector: '.portfolio-item'});
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);
+    });
 }
+
+
+
+function updateAboutUsBanner() {
+	const apiUrl = `https://purple-backend-362176970036.asia-south1.run.app/properties/${PROJECTID}/banner`;
+  
+	// Fetch banner data from the API using Fetch
+	fetch(apiUrl)
+	  .then(response => {
+		// Check if the response is ok (status in the range 200-299)
+		if (!response.ok) {
+		  throw new Error(`HTTP error! status: ${response.status}`);
+		}
+		return response.json(); // Parse the JSON from the response
+	  })
+	  .then(data => {
+		// Log the response data
+		console.log('API Response:', data);
+  
+		// Find the banner with heading "Aboutus"
+		const aboutUsBanner = data.categoryBanners.find(banner => 
+		  banner.heading.toLowerCase() === "aboutus"
+		);
+  
+		// Check if the banner exists and has a valid image URL
+		if (aboutUsBanner && aboutUsBanner.image) {
+		  // Log the image URL
+		  console.log('About Us Banner Image URL:', aboutUsBanner.image);
+  
+		  // Select the section where the background image needs to be applied
+		  const aboutUsSection = document.querySelector('.breadcrumbs-01');
+  
+		  // Log the aboutUsSection to confirm it's selected correctly
+		  console.log('About Us Section:', aboutUsSection);
+  
+		  // Apply the background image using inline CSS
+		  aboutUsSection.style.backgroundImage = `url('${aboutUsBanner.image}')`;
+		  aboutUsSection.style.backgroundSize = 'cover'; // Ensures the image covers the section
+		  aboutUsSection.style.backgroundPosition = 'center'; // Centers the image
+		  aboutUsSection.style.backgroundRepeat = 'no-repeat'; // Avoid repeating the image
+		} else {
+		  console.error('No valid banner found with the heading "Aboutus".');
+		}
+	  })
+	  .catch(error => {
+		console.error("Error fetching banner data:", error);
+	  });
+  }
+
+  function updateContactsBanner(){
+	const apiUrl = `https://purple-backend-362176970036.asia-south1.run.app/properties/${PROJECTID}/banner`;
+	// Fetch banner data from the API using Fetch
+	fetch(apiUrl)
+	  .then(response => {
+		// Check if the response is ok (status in the range 200-299)
+		if (!response.ok) {
+		  throw new Error(`HTTP error! status: ${response.status}`);
+		}
+		return response.json(); // Parse the JSON from the response
+	  })
+	  .then(data => {
+		// Log the response data
+		console.log('API Response:', data);
+  
+		// Find the banner with heading "Aboutus"
+		const aboutUsBanner = data.categoryBanners.find(banner => 
+		  banner.heading.toLowerCase() === "contacts"
+		);
+  
+		// Check if the banner exists and has a valid image URL
+		if (aboutUsBanner && aboutUsBanner.image) {
+		  // Log the image URL
+		  console.log('About Us Banner Image URL:', aboutUsBanner.image);
+  
+		  // Select the section where the background image needs to be applied
+		  const aboutUsSection = document.querySelector('.breadcrumbs-02');
+  
+		  // Log the aboutUsSection to confirm it's selected correctly
+		  console.log('About Us Section:', aboutUsSection);
+  
+		  // Apply the background image using inline CSS
+		  aboutUsSection.style.backgroundImage = `url('${aboutUsBanner.image}')`;
+		  aboutUsSection.style.backgroundSize = 'cover'; // Ensures the image covers the section
+		  aboutUsSection.style.backgroundPosition = 'center'; // Centers the image
+		  aboutUsSection.style.backgroundRepeat = 'no-repeat'; // Avoid repeating the image
+		} else {
+		  console.error('No valid banner found with the heading "Aboutus".');
+		}
+	  })
+	  .catch(error => {
+		console.error("Error fetching banner data:", error);
+	  });
+  }
+
+  function updateTypographyBAnner(){
+	const apiUrl = `https://purple-backend-362176970036.asia-south1.run.app/properties/${PROJECTID}/banner`;
+	// Fetch banner data from the API using Fetch
+	fetch(apiUrl)
+	  .then(response => {
+		// Check if the response is ok (status in the range 200-299)
+		if (!response.ok) {
+		  throw new Error(`HTTP error! status: ${response.status}`);
+		}
+		return response.json(); // Parse the JSON from the response
+	  })
+	  .then(data => {
+		// Log the response data
+		console.log('API Response:', data);
+  
+		// Find the banner with heading "Aboutus"
+		const aboutUsBanner = data.categoryBanners.find(banner => 
+		  banner.heading.toLowerCase() === "typography"
+		);
+  
+		// Check if the banner exists and has a valid image URL
+		if (aboutUsBanner && aboutUsBanner.image) {
+		  // Log the image URL
+		  console.log('About Us Banner Image URL:', aboutUsBanner.image);
+  
+		  // Select the section where the background image needs to be applied
+		  const aboutUsSection = document.querySelector('.breadcrumbs-03');
+  
+		  // Log the aboutUsSection to confirm it's selected correctly
+		  console.log('About Us Section:', aboutUsSection);
+  
+		  // Apply the background image using inline CSS
+		  aboutUsSection.style.backgroundImage = `url('${aboutUsBanner.image}')`;
+		  aboutUsSection.style.backgroundSize = 'cover'; // Ensures the image covers the section
+		  aboutUsSection.style.backgroundPosition = 'center'; // Centers the image
+		  aboutUsSection.style.backgroundRepeat = 'no-repeat'; // Avoid repeating the image
+		} else {
+		  console.error('No valid banner found with the heading "Aboutus".');
+		}
+	  })
+	  .catch(error => {
+		console.error("Error fetching banner data:", error);
+	  });
+  }
+
+  function updateProductDetails() { 
+    fetch(`https://purple-backend-362176970036.asia-south1.run.app/properties/${PROJECTID}/product`)
+      .then(response => response.json())
+      .then(data => {
+        if (data.allProducts && data.allProducts.length > 0) {
+          console.log('Product details:', data);
+
+          // Select all room elements in the DOM
+          const roomElements = document.querySelectorAll('.cell-sm-6.cell-md-4');
+
+          data.allProducts.forEach((product, index) => {
+            // Ensure the index doesn't exceed the number of room elements in the DOM
+            if (index < roomElements.length) {
+              const roomElement = roomElements[index];
+
+              // Update title
+              const titleElement = roomElement.querySelector('.caption-title');
+              if (titleElement) {
+                titleElement.textContent = product.title;
+              }
+
+              // Update description
+              const descriptionElement = roomElement.querySelector('.caption-text');
+              if (descriptionElement) {
+                descriptionElement.textContent = product.description;
+              }
+
+              // Update image
+              const imageElement = roomElement.querySelector('figure img');
+              if (imageElement) {
+                imageElement.src = product.images[0];
+                imageElement.alt = product.title;
+                imageElement.style.height = "300px";
+                imageElement.style.width = "100%";
+              }
+
+              // Update the href for the lightbox gallery
+              const thumbnailElement = roomElement.querySelector('a.thumbnail-classic');
+              if (thumbnailElement) {
+                thumbnailElement.href = product.images[0]; // Link to the full-size image
+              }
+
+              // Add price below the description
+              const priceElement = roomElement.querySelector('.caption-price');
+              if (!priceElement) {
+                const newPriceElement = document.createElement('p');
+                newPriceElement.classList.add('caption-price');
+                newPriceElement.textContent = `Price: $${product.price}`;
+                
+                // Insert the price after the description
+                descriptionElement.insertAdjacentElement('afterend', newPriceElement);
+              } else {
+                // Update the price if it already exists
+                priceElement.textContent = `Price: $${product.price}`;
+				priceElement.style.color = "white";
+              }
+            } else {
+              console.error(`No room element found for product at index ${index}`);
+            }
+          });
+        } else {
+          console.error('No products found in the response');
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching the product details:', error);
+      });
+}
+
+  
 
 
   
